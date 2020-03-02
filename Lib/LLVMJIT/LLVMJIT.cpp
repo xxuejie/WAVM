@@ -187,6 +187,9 @@ std::unique_ptr<llvm::TargetMachine> LLVMJIT::getTargetMachine(const TargetSpec&
 		targetAttributes.push_back("-avx512f");
 	}
 #endif
+	if(triple.getArch() == llvm::Triple::riscv64) {
+		targetAttributes.push_back("+m,+c");
+	}
 
 	return std::unique_ptr<llvm::TargetMachine>(
 		llvm::EngineBuilder().selectTarget(triple, "", targetSpec.cpu, targetAttributes));
